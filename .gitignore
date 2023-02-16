@@ -1,23 +1,54 @@
-# Compiled class file
-*.class
+// Import required packages
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-# Log file
-*.log
+import java.util.ArrayList;
+import java.util.List;
 
-# BlueJ files
-*.ctxt
+// Define Issue class to represent an issue
+class Issue {
+    String name;
+    String modelNumber;
+    String issueDate;
+    String resolutionLead;
+    String comment;
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+    public Issue(String name, String modelNumber, String issueDate, String resolutionLead, String comment) {
+        this.name = name;
+        this.modelNumber = modelNumber;
+        this.issueDate = issueDate;
+        this.resolutionLead = resolutionLead;
+        this.comment = comment;
+    }
+}
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+// Define IssuesController to handle HTTP requests
+@RestController
+class IssuesController {
+    // Define list of issues for the cranes with model numbers 700382, 700383, and 700395
+    List<Issue> issues = new ArrayList<>();
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+    public IssuesController() {
+        // Add sample issues to the list
+        issues.add(new Issue("Issue 1", "700382", "2022-01-01", "Lead 1", "Comment 1"));
+        issues.add(new Issue("Issue 2", "700383", "2022-01-02", "Lead 2", "Comment 2"));
+        issues.add(new Issue("Issue 3", "700382", "2022-01-03", "Lead 3", "Comment 3"));
+        issues.add(new Issue("Issue 4", "700395", "2022-01-04", "Lead 4", "Comment 4"));
+    }
+
+    // Define endpoint to retrieve all issues
+    @GetMapping("/issues")
+    public List<Issue> getAllIssues() {
+        return issues;
+    }
+}
+
+// Define main Spring Boot application class
+@SpringBootApplication
+public class IssuesManagementPage {
+    public static void main(String[] args) {
+        SpringApplication.run(IssuesManagementPage.class, args);
+    }
+}
